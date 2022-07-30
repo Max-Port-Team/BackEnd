@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章测试</title>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<script type="text/javascript">
+    $(function () {
+        $.getJSON("http://localhost:8082/MaxPort/article/queryAllArticle", function (data) {
+            console.log(data)
+        })
+    })
+</script>
+
+<style>
+    li{
+        list-style: none;
+    }
+    .text_box{
+        border: black 1px solid;
+        width: 800px;
+        height: 250px;
+        margin-top: 20px;
+    }
+</style>
+
+<body>
+    <ul>
+        <li class="article_box">
+            <div class="text_box">
+                <h2 class="title_box"></h2>
+                <p class="author_box"></p>
+                <p class="article_box"></p>
+                <p class="time_box"></p>
+            </div>
+        </li>
+    </ul>
+</body>
+</html>
