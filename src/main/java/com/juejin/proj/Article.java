@@ -9,19 +9,25 @@ public class Article {
 
     private String articleId; //文章id
     private String title; //文章题目
+    private String intro; //文章简介
     private String body; //文章主体
     private Date time; //日期
     private String author; //作者
+    private String tag;//文章标签类型
+    private int visit;//文章访问量
 
     public Article() {
     }
 
-    public Article(String articleId, String title, String body, Date time, String author) {
+    public Article(String articleId, String title, String intro, String body, Date time, String author, String tag, int visit) {
         this.articleId = articleId;
         this.title = title;
+        this.intro = intro;
         this.body = body;
         this.time = time;
         this.author = author;
+        this.tag = tag;
+        this.visit = visit;
     }
 
     public String getArticleId() {
@@ -38,6 +44,14 @@ public class Article {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
     }
 
     public String getBody() {
@@ -64,14 +78,33 @@ public class Article {
         this.author = author;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public int getVisit() {
+        return visit;
+    }
+
+    public void setVisit(int visit) {
+        this.visit = visit;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
                 "articleId='" + articleId + '\'' +
                 ", title='" + title + '\'' +
+                ", intro='" + intro + '\'' +
                 ", body='" + body + '\'' +
                 ", time=" + time +
                 ", author='" + author + '\'' +
+                ", tag='" + tag + '\'' +
+                ", visit=" + visit +
                 '}';
     }
 }

@@ -27,8 +27,7 @@ public class DaoTest {
     public void test2() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        Article article = new Article("1000003","JavaScriptxxx","xxxxxxxxxxxxxxxxxxxxxx",new Date(),"王五");
-
+        Article article = new Article("1000003","JavaScriptxxx","略","xxxxxxxxxxxxxxxxxxxxxx",new Date(),"王五","前端",0);
         System.out.println(articleDao.addArticle(article));
         session.commit();
         session.close();
@@ -38,7 +37,7 @@ public class DaoTest {
     public void test3() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        System.out.println(articleDao.deleteArticleById("1000003"));
+        System.out.println(articleDao.deleteArticleById("0000000002"));
         session.commit();
         session.close();
     }
@@ -48,7 +47,7 @@ public class DaoTest {
     public void test4() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        Article article = new Article("1000002","JavaScriptxxx","xxxxxxxxxxxxxxxxxxxxxx",new Date(),"王五");
+        Article article = new Article("1000002","JavaScriptxxx","略","xxxxxxxxxxxxxxxxxxxxxx",new Date(),"王五","前端",0);
         System.out.println(articleDao.updateArticle(article));
         session.commit();
         session.close();
@@ -67,7 +66,7 @@ public class DaoTest {
     public void test6() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        System.out.println(articleDao.queryAllArticleByArticleId("1000002"));
+        System.out.println(articleDao.queryAllArticleByArticleId("0000000003"));
         session.commit();
         session.close();
     }

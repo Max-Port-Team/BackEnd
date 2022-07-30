@@ -42,12 +42,17 @@ public class ArticleController {
     @RequestMapping(value = "/addArticle", produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public Map<String, Object> addArticle(@RequestBody(required = false) Map<String,String> map) throws IOException {
+        //获取各参数数据
         String title = map.get("title");
+        String intro = map.get("intro");
         String body = map.get("body");
         Date time = new Date();
         String author = map.get("author");
+        String tag = map.get("tag");
+        int visit = Integer.parseInt(map.get("visit"));
+        //计算文章id，时间戳+作者id
         String articleId = System.currentTimeMillis() + author;
-        Article article = new Article(articleId,title,body,time,author);
+        Article article = new Article(articleId,title,intro,body,time,author,tag,visit);
         Map<String, Object> mapMsg = new HashMap<>();
         //若添加成功，则返回1
         if(articleService.addArticle(article) == 1){
@@ -75,12 +80,17 @@ public class ArticleController {
     @RequestMapping(value = "/updateArticle", produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public Map<String, Object> updateArticle(@RequestBody(required = false) Map<String,String> map) throws IOException {
+        //获取各参数
         String title = map.get("title");
+        String intro = map.get("intro");
         String body = map.get("body");
         Date time = new Date();
         String author = map.get("author");
+        String tag = map.get("tag");
+        int visit = Integer.parseInt(map.get("visit"));
+        //计算文章id
         String articleId = System.currentTimeMillis() + author;
-        Article article = new Article(articleId,title,body,time,author);
+        Article article = new Article(articleId,title,intro,body,time,author,tag,visit);
         Map<String, Object> mapMsg = new HashMap<>();
         //若添加成功，则返回1
         if(articleService.updateArticle(article) == 1){

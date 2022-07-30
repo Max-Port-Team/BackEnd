@@ -16,7 +16,7 @@ public interface ArticleDao {
      * 查询所有文章
      * @return 文章列表
      */
-    @Select("select `article_id` articleId, `title` title, `body` body, `time` time, `author` author from article")
+    @Select("select `id` articleId, `title` title,`intro` intro, `body` body, `time` time, `author` author, `tag` tag, `visit` visit from article")
     List<Article> queryAllArticle();
 
     /**
@@ -24,7 +24,7 @@ public interface ArticleDao {
      * @param author 作者
      * @return 文章列表
      */
-    @Select("select `article_id` articleId, `title` title, `body` body, `time` time, `author` author from article where `author`=#{author}")
+    @Select("select `id` articleId, `title` title,`intro` intro, `body` body, `time` time, `author` author, `tag` tag, `visit` visit from article where `author`=#{author}")
     List<Article> queryAllArticleByAuthor(String author);
 
     /**
@@ -32,7 +32,7 @@ public interface ArticleDao {
      * @param ArticleId 文章id
      * @return
      */
-    @Select("select `article_id` articleId, `title` title, `body` body, `time` time, `author` author from article where `article_id`=#{articleId}")
+    @Select("select `id` articleId, `title` title,`intro` intro, `body` body, `time` time, `author` author, `tag` tag, `visit` visit from article where `id`=#{articleId}")
     Article queryAllArticleByArticleId(String ArticleId);
 
     /**
@@ -40,7 +40,7 @@ public interface ArticleDao {
      * @param article 文章类
      * @return 1为添加成功
      */
-    @Insert("insert into article(`article_id`,`title`,`body`,`time`,`author`) value(#{articleId},#{title},#{body},#{time},#{author})")
+    @Insert("insert into article(`id`, `title`,`intro`, `body`, `time`, `author`, `tag`, `visit`) value(#{articleId},#{title},#{intro},#{body},#{time},#{author},#{tag},#{visit})")
     int addArticle(Article article);
 
     /**
@@ -48,7 +48,7 @@ public interface ArticleDao {
      * @param articleId 文章id
      * @return 1为删除成功
      */
-    @Delete("delete from article where `article_id` = #{articleId}")
+    @Delete("delete from article where `id` = #{articleId}")
     int deleteArticleById(String articleId);
 
     /**
@@ -56,6 +56,6 @@ public interface ArticleDao {
      * @param article 文章类
      * @return 1为修改成功
      */
-    @Update("update article set `article_id`=#{articleId}, `title`=#{title}, `body`=#{body}, `time`=#{time}, `author`=#{author} where `article_id` = #{articleId}")
+    @Update("update article set `id`=#{articleId}, `title`=#{title}, `intro`={intro} `body`=#{body}, `time`=#{time}, `author`=#{author}, `tag`={tag}, `visit`={visit} where `id` = #{articleId}")
     int updateArticle(Article article);
 }
