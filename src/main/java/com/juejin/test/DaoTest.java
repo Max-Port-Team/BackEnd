@@ -1,7 +1,9 @@
 package com.juejin.test;
 
 import com.juejin.dao.ArticleDao;
+import com.juejin.dao.PeopleDao;
 import com.juejin.proj.Article;
+import com.juejin.proj.People;
 import com.juejin.utils.MyBatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
@@ -57,7 +59,7 @@ public class DaoTest {
     public void test5() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        System.out.println(articleDao.queryAllArticleByAuthor("王五"));
+        System.out.println(articleDao.queryAllArticleByAuthor("0000000003"));
         session.commit();
         session.close();
     }
@@ -66,7 +68,72 @@ public class DaoTest {
     public void test6() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        System.out.println(articleDao.queryAllArticleByArticleId("0000000003"));
+        System.out.println(articleDao.queryArticleByArticleId("0000000001"));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test7() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        ArticleDao articleDao = session.getMapper(ArticleDao.class);
+        System.out.println(articleDao.queryTenArticle("0000000006"));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test8() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
+        System.out.println(PeopleDao.queryPeopleByIdAndPwd("0000000001", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test9() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
+        System.out.println(PeopleDao.queryPeopleById("0000000001"));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test10() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
+        People people = new People(null,"test","123123",null,null);
+        System.out.println(PeopleDao.insertPeople(people));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test11() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        ArticleDao articleDao = session.getMapper(ArticleDao.class);
+        System.out.println(articleDao.queryTenArticleId("0000000006"));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test12() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
+        System.out.println(PeopleDao.queryPeopleByNickname("111"));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test13() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
+        People people = new People("5","Edwin","8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",null,null);
+        System.out.println(PeopleDao.updatePeopleInfo(people));
         session.commit();
         session.close();
     }

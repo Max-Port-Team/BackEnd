@@ -34,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
     public Article queryAllArticleByArticleId(String ArticleId) throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        return articleDao.queryAllArticleByArticleId(ArticleId);
+        return articleDao.queryArticleByArticleId(ArticleId);
     }
 
     @Override

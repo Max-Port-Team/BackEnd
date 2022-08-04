@@ -29,14 +29,16 @@ public class ArticleController {
 
     @RequestMapping(value = "/queryAllArticleByAuthor", produces={"application/json; charset=UTF-8"})
     @ResponseBody
-    public List<Article> queryAllArticleByAuthor(@RequestBody(required = false) String authorId) throws IOException {
+    public List<Article> queryAllArticleByAuthor(@RequestBody(required = false) Map<String,String> map) throws IOException {
+        String authorId = map.get("authorId");
         return articleService.queryAllArticleByAuthor(authorId);
     }
 
-    @RequestMapping(value = "/queryAllArticleByArticleId", produces={"application/json; charset=UTF-8"})
+    @RequestMapping(value = "/queryArticleByArticleId", produces={"application/json; charset=UTF-8"})
     @ResponseBody
-    public Article queryAllArticleByArticleId(@RequestBody(required = false) String ArticleId) throws IOException {
-        return articleService.queryAllArticleByArticleId(ArticleId);
+    public Article queryArticleByArticleId(@RequestBody(required = false) Map<String,String> map) throws IOException {
+        String articleId = map.get("articleId");
+        return articleService.queryAllArticleByArticleId(articleId);
     }
 
     @RequestMapping(value = "/addArticle", produces={"application/json; charset=UTF-8"})
@@ -50,9 +52,7 @@ public class ArticleController {
         String author = map.get("author");
         String tag = map.get("tag");
         int visit = Integer.parseInt(map.get("visit"));
-        //计算文章id，时间戳+作者id
-        String articleId = System.currentTimeMillis() + author;
-        Article article = new Article(articleId,title,intro,body,time,author,tag,visit);
+        Article article = new Article(null,title,intro,body,time,author,tag,visit);
         Map<String, Object> mapMsg = new HashMap<>();
         //若添加成功，则返回1
         if(articleService.addArticle(article) == 1){
@@ -66,7 +66,8 @@ public class ArticleController {
 
     @RequestMapping(value = "/deleteArticle", produces={"application/json; charset=UTF-8"})
     @ResponseBody
-    public Map<String, Object> deleteArticle(@RequestBody(required = false) String articleId) throws IOException {
+    public Map<String, Object> deleteArticle(@RequestBody(required = false) Map<String,String> map) throws IOException {
+        String articleId = map.get("articleId");
         Map<String, Object> mapMsg = new HashMap<>();
         if(articleService.deleteArticleById(articleId) == 1){
             mapMsg.put("success",true);

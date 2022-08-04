@@ -12,30 +12,147 @@
             console.log(data)
         })
     })
+    function queryArticleByAuthor(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/article/queryAllArticleByAuthor",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"authorId":  "0000000003"}),
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+    function queryArticleByArticleId(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/article/queryArticleByArticleId",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"authorId":  "0000000001"}),
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+    function addArticle(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/article/addArticle",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({}),//此处只展示样式不添加文章
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+    function deleteArticle(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/article/deleteArticle",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"articleId":  "0000000003"}),
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+    function updateArticle(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/article/updateArticle",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({}),//此处只展示样式不添加文章
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function loginPeople(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/people/loginPeople",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"id":'0000000001',"password":'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'}),
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function () {
+                console.log("登录成功")
+            }
+        })
+    }
+
+    function getInfoById(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/people/getInfoById",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"id":'0000000001'}),
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function getDetailById(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/people/getDetailById",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"id":'0000000001'}),
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function updatePeopleInfo(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/people/updatePeopleInfo",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"id":'0000000005',"nickname":"Cai Molly","password":'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92',"avatar":null}),
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
 </script>
 
-<style>
-    li{
-        list-style: none;
-    }
-    .text_box{
-        border: black 1px solid;
-        width: 800px;
-        height: 250px;
-        margin-top: 20px;
-    }
-</style>
-
 <body>
-    <ul>
-        <li class="article_box">
-            <div class="text_box">
-                <h2 class="title_box"></h2>
-                <p class="author_box"></p>
-                <p class="article_box"></p>
-                <p class="time_box"></p>
-            </div>
-        </li>
-    </ul>
+    <button onclick="queryArticleByAuthor()">根据作者ID查看文章</button>
+    <button onclick="queryArticleByArticleId()">根据文章ID查看文章</button>
+    <button onclick="addArticle()">添加文章</button>
+    <button onclick="deleteArticle()">删除文章</button>
+    <button onclick="updateArticle()">修改文章</button>
+    <button onclick="loginPeople()">登录</button>
+    <button onclick="getInfoById()">查看信息</button>
+    <button onclick="getDetailById()">查看细节信息</button>
+    <button onclick="updatePeopleInfo()">修改作者信息</button>
 </body>
 </html>
