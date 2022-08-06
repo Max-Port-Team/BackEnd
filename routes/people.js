@@ -13,6 +13,7 @@ router.post('/login', function (req, res, next) {
         }
         else { 
             if (!result.length) {//无匹配
+                res.status(400);
                 res.send({status:false})
             }
             else {
@@ -48,6 +49,7 @@ router.post('/register', function (req, res, next) {
         }
         else {
             if (result.length) {//有匹配，用户名被占用，返回错误
+                res.status(400);
                 res.send({ status: false,errmsg:'用户名被占用！' })
             }
             else {
@@ -97,7 +99,7 @@ router.post('/logout', function (req, res, next) {
 });
 
 router.get('/get-info-by-id', function (req, res, next) {
-    let ids= req.body.join(',')
+    let ids= req.query.id
     query('SELECT id,nickname,avatar FROM people where id in ('+ids+')',[], (err, result) => {
         if (err) {
             res.status(500);
@@ -110,26 +112,32 @@ router.get('/get-info-by-id', function (req, res, next) {
 });
 
 router.get('/get-detailed-by-id', function (req, res, next) {
-    let id = req.body.id
+    let id = req.query.id
     query('SELECT id,nickname,avatar FROM people where id = ?', [id], (err, result) => {
         if (err) {
             res.status(500);
             res.send('error');
         }
         else {
-            let people = result[0];
-            query('SELECT id,title,intro,time,author,tag,visit FROM article where author = ? order by id desc', [id], (err, result) => {
-                if (err) {
-                    res.status(500);
-                    res.send('error');
-                }
-                else {
-                    let articleArr = result.slice(0,10);
-                    let articleList = [];
-                    result.forEach((val) => { articleList.push(val.id) });
-                    res.send({ nickname: people.nickname, avatar: people.avatar, articleArr, articleList });
-                }
-            });
+            if (!result.length) {
+                res.status(400);
+                res.send('错误的ID！');
+            }
+            else {
+                let people = result[0];
+                query('SELECT id,title,intro,time,author,tag,visit FROM article where author = ? order by id desc', [id], (err, result) => {
+                    if (err) {
+                        res.status(500);
+                        res.send('error');
+                    }
+                    else {
+                        let articleArr = result.slice(0, 10);
+                        let articleList = [];
+                        result.forEach((val) => { articleList.push(val.id) });
+                        res.send({ nickname: people.nickname, avatar: people.avatar, articleArr, articleList });
+                    }
+                });
+            }
         }
     });
 });
