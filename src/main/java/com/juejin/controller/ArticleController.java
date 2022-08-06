@@ -55,7 +55,8 @@ public class ArticleController {
         Article article = new Article(null,title,intro,body,time,author,tag,visit);
         Map<String, Object> mapMsg = new HashMap<>();
         //若添加成功，则返回1
-        if(articleService.addArticle(article) == 1){
+        int flag = articleService.addArticle(article);
+        if(flag == 1){
             mapMsg.put("success",true);
             return mapMsg;
         }else {
@@ -69,7 +70,8 @@ public class ArticleController {
     public Map<String, Object> deleteArticle(@RequestBody(required = false) Map<String,String> map) throws IOException {
         String articleId = map.get("articleId");
         Map<String, Object> mapMsg = new HashMap<>();
-        if(articleService.deleteArticleById(articleId) == 1){
+        int flag = articleService.deleteArticleById(articleId);
+        if(flag == 1){
             mapMsg.put("success",true);
             return mapMsg;
         }else {
@@ -82,6 +84,7 @@ public class ArticleController {
     @ResponseBody
     public Map<String, Object> updateArticle(@RequestBody(required = false) Map<String,String> map) throws IOException {
         //获取各参数
+        String id = map.get("id");
         String title = map.get("title");
         String intro = map.get("intro");
         String body = map.get("body");
@@ -90,8 +93,7 @@ public class ArticleController {
         String tag = map.get("tag");
         int visit = Integer.parseInt(map.get("visit"));
         //计算文章id
-        String articleId = System.currentTimeMillis() + author;
-        Article article = new Article(articleId,title,intro,body,time,author,tag,visit);
+        Article article = new Article(id,title,intro,body,time,author,tag,visit);
         Map<String, Object> mapMsg = new HashMap<>();
         //若添加成功，则返回1
         if(articleService.updateArticle(article) == 1){

@@ -22,8 +22,8 @@
     <!--Spring整合MyBatis框架-->
     <!--配置连接池-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
-        <property name="jdbcUrl" value="jdbc:mysql://43.156.106.129:65514/MaxPort?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=CST"/>
+        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://43.156.106.129:65514/MaxPort?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=CST"/>
         <property name="user" value="root"/>
         <property name="password" value="7hHeKT5jJxVGsU"/>
     </bean>

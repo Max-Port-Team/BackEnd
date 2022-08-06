@@ -30,7 +30,7 @@ public interface ArticleDao {
      * @return
      */
     @Select("select `id` articleId, `title` title,`intro` intro, `body` body, `time` time, `author` author, `tag` tag, `visit` visit from article where `id`=#{articleId}")
-    Article queryArticleByArticleId(@Param("id") String articleId);
+    Article queryArticleByArticleId(@Param("articleId") String articleId);
 
     /**
      * 查询某作者近十篇文章
@@ -51,7 +51,7 @@ public interface ArticleDao {
      * @param article 文章类
      * @return 1为添加成功
      */
-    @Insert("insert into article(`id`, `title`,`intro`, `body`, `time`, `author`, `tag`, `visit`) value(#{articleId},#{title},#{intro},#{body},#{time},#{author},#{tag},#{visit})")
+    @Insert("insert into article(`title`,`intro`, `body`, `time`, `author`, `tag`, `visit`) value(#{title},#{intro},#{body},#{time},#{author},#{tag},#{visit})")
     int addArticle(Article article);
 
     /**
@@ -60,14 +60,14 @@ public interface ArticleDao {
      * @return 1为删除成功
      */
     @Delete("delete from article where `id` = #{articleId}")
-    int deleteArticleById(@Param("id")String articleId);
+    int deleteArticleById(@Param("articleId")String articleId);
 
     /**
      * 修改文章
      * @param article 文章类
      * @return 1为修改成功
      */
-    @Update("update article set `id`=#{articleId}, `title`=#{title}, `intro`={intro} `body`=#{body}, `time`=#{time}, `author`=#{author}, `tag`={tag}, `visit`={visit} where `id` = #{articleId}")
+    @Update("update article set `title`=#{title}, `intro`=#{intro}, `body`=#{body}, `time`=#{time}, `author`=#{author}, `tag`=#{tag}, `visit`=#{visit} where `id`=#{articleId}")
     int updateArticle(Article article);
 
 }

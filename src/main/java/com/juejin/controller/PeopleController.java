@@ -24,15 +24,32 @@ public class PeopleController {
     @RequestMapping(value = "/loginPeople", produces={"application/json; charset=UTF-8"})
     @ResponseBody
     public Map<String, Object> loginPeople(@RequestBody(required = false) Map<String,String> map) throws IOException {
-        String id = map.get("id");
+        String nickname = map.get("nickname");
         String password = map.get("password");
-        People people = peopleService.login(id,password);
         Map<String, Object> msg = new HashMap<>();
+        //计算cookie的值
+        String cookieValue = nickname + password + System.currentTimeMillis();
+        Cookie cookie = new Cookie("sid",cookieValue);
+        //开始鉴权操作
+        String realId = null;
+        int flag = peopleService.updateCookieByNickname(cookieValue,nickname);
+        if(flag == 1){
+            realId = peopleService.getIdByCookie(cookieValue);
+            System.out.println(peopleService.getIdByCookie(cookieValue));
+        }else {
+            msg.put("success",false);
+            msg.put("information", "鉴权失败");
+        }
+        System.out.println(realId);
+        People people = peopleService.login(realId,password);
         if(people == null){
             msg.put("success",false);
-            msg.put("information", "用户名或密码错误");
+            msg.put("information", "鉴权失败或密码错误");
         }else {
             msg.put("success",true);
+            msg.put("id",people.getAuthorId());
+            msg.put("nickname",people.getNickName());
+            msg.put("avatar",people.getAvatar());
         }
         return msg;
     }

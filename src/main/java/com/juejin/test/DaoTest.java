@@ -8,7 +8,7 @@ import com.juejin.utils.MyBatisUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import java.util.Date;
-
+import com.juejin.utils.initLogRecord;
 import java.io.IOException;
 
 public class DaoTest {
@@ -29,7 +29,7 @@ public class DaoTest {
     public void test2() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        Article article = new Article("1000003","JavaScriptxxx","略","xxxxxxxxxxxxxxxxxxxxxx",new Date(),"王五","前端",0);
+        Article article = new Article(null,"测试xxx","略","xxxxxxxxxxxxxxxxxxxxxx",new Date(),"0000000001","前端",0);
         System.out.println(articleDao.addArticle(article));
         session.commit();
         session.close();
@@ -49,7 +49,7 @@ public class DaoTest {
     public void test4() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        Article article = new Article("1000002","JavaScriptxxx","略","xxxxxxxxxxxxxxxxxxxxxx",new Date(),"王五","前端",0);
+        Article article = new Article("0000000018","测试xxx","略","xxxxxxxxxxxxx",new Date(),"0000000001","前端",0);
         System.out.println(articleDao.updateArticle(article));
         session.commit();
         session.close();
@@ -86,7 +86,7 @@ public class DaoTest {
     public void test8() throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
-        System.out.println(PeopleDao.queryPeopleByIdAndPwd("0000000001", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"));
+        System.out.println(PeopleDao.queryPeopleByIdAndPwd("1", "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"));
         session.commit();
         session.close();
     }
@@ -134,6 +134,25 @@ public class DaoTest {
         PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
         People people = new People("5","Edwin","8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",null,null);
         System.out.println(PeopleDao.updatePeopleInfo(people));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test14() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
+        String cookieValue = "Yuzi" + "114" + System.currentTimeMillis();
+        System.out.println(PeopleDao.updatePeopleCookie(cookieValue,"Yuzi"));
+        session.commit();
+        session.close();
+    }
+
+    @Test
+    public void test15() throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao PeopleDao = session.getMapper(PeopleDao.class);
+        System.out.println(PeopleDao.queryIdByCookie("'Yuzi1141659769073977"));
         session.commit();
         session.close();
     }

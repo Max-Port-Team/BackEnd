@@ -19,42 +19,60 @@ public class ArticleServiceImpl implements ArticleService {
         SqlSession session = MyBatisUtils.openSession();
         // 获取到代理对象
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
+        List<Article> list = articleDao.queryAllArticle();
+        session.commit();
+        session.close();
         // 返回列表
-        return articleDao.queryAllArticle();
+        return list;
     }
 
     @Override
     public List<Article> queryAllArticleByAuthor(String author) throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        return articleDao.queryAllArticleByAuthor(author);
+        List<Article> list = articleDao.queryAllArticleByAuthor(author);
+        session.commit();
+        session.close();
+        return list;
     }
 
     @Override
     public Article queryAllArticleByArticleId(String ArticleId) throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        return articleDao.queryArticleByArticleId(ArticleId);
+        Article article = articleDao.queryArticleByArticleId(ArticleId);
+        session.commit();
+        session.close();
+        return article;
     }
 
     @Override
     public int addArticle(Article article) throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        return articleDao.addArticle(article);
+        int flag = articleDao.addArticle(article);
+        session.commit();
+        session.close();
+        return flag;
     }
 
     @Override
     public int deleteArticleById(String articleId) throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        return articleDao.deleteArticleById(articleId);
+        int flag = articleDao.deleteArticleById(articleId);
+        session.commit();
+        session.close();
+        return flag;
     }
 
     @Override
     public int updateArticle(Article article) throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         ArticleDao articleDao = session.getMapper(ArticleDao.class);
-        return articleDao.updateArticle(article);
+        int flag = articleDao.updateArticle(article);
+        session.commit();
+        session.close();
+        return flag;
     }
 }

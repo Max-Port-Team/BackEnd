@@ -19,12 +19,14 @@ import java.util.Map;
 @Service("PeopleService")
 public class PeopleServiceImpl implements PeopleService {
 
-
     @Override
     public People login(String id, String password) throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         PeopleDao peopleDao = session.getMapper(PeopleDao.class);
-        return peopleDao.queryPeopleByIdAndPwd(id,password);
+        People people = peopleDao.queryPeopleByIdAndPwd(id,password);;
+        session.commit();
+        session.close();
+        return people;
     }
 
     @Override
@@ -33,7 +35,10 @@ public class PeopleServiceImpl implements PeopleService {
         PeopleDao peopleDao = session.getMapper(PeopleDao.class);
         if(peopleDao.queryPeopleByNickname(nickname) == null){
             People people = new People(null,nickname,password,null,null);
-            return peopleDao.insertPeople(people);
+            int flag = peopleDao.insertPeople(people);
+            session.commit();
+            session.close();
+            return flag;
         }else {
             return 0;
         }
@@ -47,6 +52,8 @@ public class PeopleServiceImpl implements PeopleService {
         Map<String, String> map = new HashMap<>();
         map.put("nickname",people.getNickName());
         map.put("avatar",people.getAvatar());
+        session.commit();
+        session.close();
         return map;
     }
 
@@ -61,6 +68,8 @@ public class PeopleServiceImpl implements PeopleService {
         map.put("avatar",people.getAvatar());
         map.put("articles",articleDao.queryTenArticle(id));
         map.put("articleIds",articleDao.queryTenArticleId(id));
+        session.commit();
+        session.close();
         return map;
     }
 
@@ -68,6 +77,29 @@ public class PeopleServiceImpl implements PeopleService {
     public int UpdatePeopleInfo(People people) throws IOException {
         SqlSession session = MyBatisUtils.openSession();
         PeopleDao peopleDao = session.getMapper(PeopleDao.class);
-        return peopleDao.updatePeopleInfo(people);
+        int flag = peopleDao.updatePeopleInfo(people);
+        session.commit();
+        session.close();
+        return flag;
+    }
+
+    @Override
+    public int updateCookieByNickname(String cookieValue,String nickname) throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao peopleDao = session.getMapper(PeopleDao.class);
+        int flag = peopleDao.updatePeopleCookie(cookieValue,nickname);
+        session.commit();
+        session.close();
+        return flag;
+    }
+
+    @Override
+    public String getIdByCookie(String cookieValue) throws IOException {
+        SqlSession session = MyBatisUtils.openSession();
+        PeopleDao peopleDao = session.getMapper(PeopleDao.class);
+        String id = peopleDao.queryIdByCookie(cookieValue);
+        session.commit();
+        session.close();
+        return id;
     }
 }

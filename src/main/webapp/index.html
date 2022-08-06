@@ -17,7 +17,7 @@
             url: "http://localhost:8082/MaxPort/article/queryAllArticleByAuthor",
             type: "POST",
             contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({"authorId":  "0000000003"}),
+            data: JSON.stringify({"authorId": "0000000003"}),
             error: function (errorThrown) {
                 alert(errorThrown)
             },
@@ -31,7 +31,7 @@
             url: "http://localhost:8082/MaxPort/article/queryArticleByArticleId",
             type: "POST",
             contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({"authorId":  "0000000001"}),
+            data: JSON.stringify({"articleId": "0000000001"}),
             error: function (errorThrown) {
                 alert(errorThrown)
             },
@@ -45,7 +45,7 @@
             url: "http://localhost:8082/MaxPort/article/addArticle",
             type: "POST",
             contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({}),//此处只展示样式不添加文章
+            data: JSON.stringify({"title":"标题测试","intro":"序言测试","body":"内容测试","author":"0000000027","tag":"标签测试","visit":"0"}),//此处只展示样式不添加文章
             error: function (errorThrown) {
                 alert(errorThrown)
             },
@@ -59,7 +59,7 @@
             url: "http://localhost:8082/MaxPort/article/deleteArticle",
             type: "POST",
             contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({"articleId":  "0000000003"}),
+            data: JSON.stringify({"articleId": "0000000018"}),
             error: function (errorThrown) {
                 alert(errorThrown)
             },
@@ -73,7 +73,7 @@
             url: "http://localhost:8082/MaxPort/article/updateArticle",
             type: "POST",
             contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({}),//此处只展示样式不添加文章
+            data: JSON.stringify({"id":"0000000019","title":"标题测试修改","intro":"序言测试修改","body":"内容测试修改","author":"0000000027","tag":"标签测试修改","visit":"0"}),//此处只展示样式不添加文章
             error: function (errorThrown) {
                 alert(errorThrown)
             },
@@ -88,12 +88,27 @@
             url: "http://localhost:8082/MaxPort/people/loginPeople",
             type: "POST",
             contentType: "application/json;charset=utf-8",
-            data: JSON.stringify({"id":'0000000001',"password":'8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92'}),
+            data: JSON.stringify({"nickname":"Yuzi","password":'114'}),
             error: function (errorThrown) {
                 alert(errorThrown)
             },
-            success: function () {
-                console.log("登录成功")
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function registerPeople(){
+        $.ajax({
+            url: "http://localhost:8082/MaxPort/people/registerPeople",
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify({"nickname":"测试","password":'1111111'}),
+            error: function (errorThrown) {
+                alert(errorThrown)
+            },
+            success: function (data) {
+                console.log(data)
             }
         })
     }
@@ -151,6 +166,7 @@
     <button onclick="deleteArticle()">删除文章</button>
     <button onclick="updateArticle()">修改文章</button>
     <button onclick="loginPeople()">登录</button>
+    <button onclick="registerPeople()">注册</button>
     <button onclick="getInfoById()">查看信息</button>
     <button onclick="getDetailById()">查看细节信息</button>
     <button onclick="updatePeopleInfo()">修改作者信息</button>

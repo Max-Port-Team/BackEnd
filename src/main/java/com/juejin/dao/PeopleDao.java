@@ -51,4 +51,21 @@ public interface PeopleDao {
      */
     @Update("update people set `nickname`=#{nickName}, `password`=#{password}, `avatar`=#{avatar} where `id`=#{authorId}")
     int updatePeopleInfo(People people);
+
+    /**
+     * 更新作者cookie，用于鉴权操作
+     * @param nickname 昵称
+     * @param sId cookie
+     * @return 返回1则表示成功
+     */
+    @Insert("update people set `sid`=#{sId} where `nickname`=#{nickname}")
+    int updatePeopleCookie(@Param("sId")String sId, @Param("nickname")String nickname);
+
+    /**
+     * 根据cookie查询id，用于鉴权操作
+     * @param sId Cookie
+     * @return id
+     */
+    @Select("select `id` authorId from people where `sid`=#{sId}")
+    String queryIdByCookie(@Param("sId")String sId);
 }
