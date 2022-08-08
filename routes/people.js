@@ -9,7 +9,7 @@ router.post('/login', function (req, res, next) {
     query('SELECT * FROM people where nickname=? and password=?', [nickname,password], (err, result) => {
         if (err) {
             res.status(500);
-            res.render('error');
+            res.send('error');
         }
         else { 
             if (!result.length) {//无匹配
@@ -23,7 +23,7 @@ router.post('/login', function (req, res, next) {
                 query('update people set sid=? where id = ?', [cookie, result[0].id], (err, result) => {
                     if (err) {
                         res.status(500);
-                        res.render('error');
+                        res.send('error');
                     }
                     else {
                         res.send({
@@ -45,7 +45,7 @@ router.post('/register', function (req, res, next) {
     query('SELECT * FROM people where nickname=?', [nickname], (err, result) => {
         if (err) {
             res.status(500);
-            res.render('error');
+            res.send('error');
         }
         else {
             if (result.length) {//有匹配，用户名被占用，返回错误
@@ -56,7 +56,7 @@ router.post('/register', function (req, res, next) {
                 query('insert into people (nickname,password) values(?,?)', [nickname, password], (err, result) => {
                     if (err) {
                         res.status(500);
-                        res.render('error');
+                        res.send('error');
                     }
                     else {
                         res.send({
