@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var query = require('../mysql/pool')
 
-let AddAuthorName = (result)=>{
+let AddAuthorName = (result) => {
     return new Promise((resolve, reject) => {
+        if (!result.length) { resolve(result); }
         let flag = result.length;
         result.forEach(function (val, index) {
             query('SELECT nickname FROM people where id = ?', [val.author], (err, res) => {
@@ -29,6 +30,19 @@ router.get('/queryAllArticle', function (req, res, next) {
         }
         else {
             AddAuthorName(result).then((val) => { res.send(val); }, (err) => { res.status(500); res.send('error')})
+        }
+    });
+});
+
+router.get('/queryAllArticleByTag', function (req, res, next) {
+    console.log(req.query.tag);
+    query('SELECT id,title,intro,time,author,tag,visit FROM article where tag=? ORDER BY RAND() LIMIT 10', [req.query.tag], (err, result) => {
+        if (err) {
+            res.status(500);
+            res.send('error');
+        }
+        else {
+            AddAuthorName(result).then((val) => { res.send(val); }, (err) => { res.status(500); res.send('error') })
         }
     });
 });
