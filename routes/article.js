@@ -2,54 +2,56 @@ var express = require('express');
 var router = express.Router();
 var query = require('../mysql/pool')
 
-let AddAuthorName = (result) => {
-    return new Promise((resolve, reject) => {
-        if (!result.length) { resolve(result); }
-        let flag = result.length;
-        result.forEach(function (val, index) {
-            query('SELECT nickname FROM people where id = ?', [val.author], (err, res) => {
-                if (err) { reject(err) }
-                else {
-                    val.authorName = res[0].nickname;
-                    result[index] == val;
-                    flag--;
-                    if (!flag) {
-                        resolve(result);
-                    }
-                }
-            })
-        })
-    })
-}
+// let AddAuthorName = (result) => {
+//     return new Promise((resolve, reject) => {
+//         if (!result.length) { resolve(result); }
+//         let flag = result.length;
+//         result.forEach(function (val, index) {
+//             query('SELECT nickname FROM people where id = ?', [val.author], (err, res) => {
+//                 if (err) { reject(err) }
+//                 else {
+//                     val.authorName = res[0].nickname;
+//                     result[index] == val;
+//                     flag--;
+//                     if (!flag) {
+//                         resolve(result);
+//                     }
+//                 }
+//             })
+//         })
+//     })
+// }
 
 router.get('/queryAllArticle', function (req, res, next) {
-    query('SELECT id,title,intro,time,author,tag,visit FROM article ORDER BY RAND() LIMIT 10', [], (err, result) => {
+    query('SELECT a.id,a.title,a.intro,a.time,a.author,a.tag,a.visit,p.nickname authorName,p.avatar FROM article a,people p where a.author=p.id ORDER BY RAND() LIMIT 10', [], (err, result) => {
         if (err) {
             res.status(500);
             res.send('error');
         }
         else {
-            AddAuthorName(result).then((val) => { res.send(val); }, (err) => { res.status(500); res.send('error')})
+            // AddAuthorName(result).then((val) => { res.send(val); }, (err) => { res.status(500); res.send('error')})
+            res.send(result)
         }
     });
 });
 
 router.get('/queryAllArticleByTag', function (req, res, next) {
     console.log(req.query.tag);
-    query('SELECT id,title,intro,time,author,tag,visit FROM article where tag=? ORDER BY RAND() LIMIT 10', [req.query.tag], (err, result) => {
+    query('SELECT a.id,a.title,a.intro,a.time,a.author,a.tag,a.visit,p.nickname authorName,p.avatar FROM article a,people p where a.author=p.id AND tag=? ORDER BY RAND() LIMIT 10', [req.query.tag], (err, result) => {
         if (err) {
             res.status(500);
             res.send('error');
         }
         else {
-            AddAuthorName(result).then((val) => { res.send(val); }, (err) => { res.status(500); res.send('error') })
+            //AddAuthorName(result).then((val) => { res.send(val); }, (err) => { res.status(500); res.send('error') })
+            res.send(result)
         }
     });
 });
 
 router.get('/queryAllArticleByAuthor', function (req, res, next) {
     let author = req.query.authorId;
-    query('SELECT id,title,intro,time,author,tag,visit FROM article WHERE author=? ORDER BY id desc LIMIT 10', [author], (err, result) => {
+    query('SELECT a.id,a.title,a.intro,a.time,a.author,a.tag,a.visit,p.nickname authorName,p.avatar FROM article a,people p where a.author=p.id AND a.author=? ORDER BY id desc LIMIT 10', [author], (err, result) => {
         if (err) {
             res.status(500);
             res.send('error');
@@ -74,19 +76,18 @@ router.get('/queryAllArticleByAuthor', function (req, res, next) {
 
 router.get('/queryArticleByArticleId', function (req, res, next) {
     let articleList = req.query.articleId
-    console.log(articleList);
-    query('SELECT id,title,intro,time,author,tag,visit FROM article where id in (' + articleList + ')', [], (err, result) => {
+    query('SELECT a.id,a.title,a.intro,a.time,a.author,a.tag,a.visit,p.nickname authorName,p.avatar FROM article a,people p where a.author=p.id and a.id in (' + articleList + ')', [], (err, result) => {
         if (err) {
             res.status(500);
             res.send('error');
         }
-        else { AddAuthorName(result).then((val) => { res.send(val); }, (err) => { res.status(500); res.send('error') }) }
+        else {res.send(result) }
     });
 });
 
 router.get('/queryDetailArticle', function (req, res, next) {
     let article = req.query.articleId
-    query('SELECT * FROM article where id=?', [article], (err, result) => {
+    query('SELECT a.id,a.title,a.intro,a.body,a.time,a.author,a.tag,a.visit,p.nickname authorName,p.avatar FROM article a,people p where a.author=p.id and a.id=?', [article], (err, result) => {
         if (err) {
             res.status(500);
             res.send('error');
