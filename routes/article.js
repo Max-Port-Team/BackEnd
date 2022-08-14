@@ -94,6 +94,7 @@ router.get('/queryDetailArticle', function (req, res, next) {
         }
         else { res.send(result[0]); }
     });
+    query('UPDATE article SET visit=visit+1 WHERE id=?', [article], (err, result)=>{})
 });
 
 router.post('/addArticle', function (req, res, next) {
