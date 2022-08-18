@@ -142,7 +142,7 @@ router.put('/updateArticle', function (req, res, next) {
                         res.send('error');
                     }
                     else {
-                        if (!result.length || result[0].author != userId) { res.send({ status: false }) }
+                        if (!result.length || result[0].author != userId) {res.status(403); res.send({ status: false }) }
                         else {
                             query('update article set title=?,tag=?,intro=?,body=? where id=?', [req.body.title, req.body.tag, req.body.intro, req.body.body, req.body.id], (err, result) => {
                                 if (err) {
@@ -158,5 +158,41 @@ router.put('/updateArticle', function (req, res, next) {
         }
     });
 });
+
+router.delete('/deleteArticle', function (req, res, next) {
+    query('SELECT * FROM people where sid=?', [req.cookies.sid], (err, result) => {
+        if (err) {
+            res.status(500);
+            res.send('error');
+        }
+        else {
+            if (!result.length) {//无匹配
+                res.status(403);
+                res.send({ status: false })
+            }
+            else {
+                let userId = result[0].id;
+                query('select * from article where id=?', [req.body.id], (err, result) => {
+                    if (err) {
+                        res.status(500);
+                        res.send('error');
+                    }
+                    else {
+                        if (!result.length || result[0].author != userId) { res.status(403); res.send({ status: false }) }
+                        else {
+                            query('delete from article where id=?', [req.body.id], (err, result) => {
+                                if (err) {
+                                    res.status(500);
+                                    res.send('error');
+                                }
+                                else { res.send({ status: true }) }
+                            })
+                        }
+                    }
+                })
+            }
+        }
+    });
+})
 
 module.exports = router;
