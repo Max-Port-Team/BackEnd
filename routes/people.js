@@ -111,6 +111,19 @@ router.get('/get-info-by-id', function (req, res, next) {
     });
 });
 
+router.get('/get-sum-visit-by-id', function (req, res, next) {
+    let id = req.query.id
+    query('SELECT sum(visit) visit from article where author = ?', [id], (err, result) => {
+        if (err) {
+            res.status(500);
+            res.send('error');
+        }
+        else {
+            res.send(result[0]);
+        }
+    })
+})
+
 router.get('/get-detailed-by-id', function (req, res, next) {
     let id = req.query.id
     query('SELECT id,nickname,avatar FROM people where id = ?', [id], (err, result) => {
