@@ -81,7 +81,7 @@ router.get('/queryArticleByArticleId', function (req, res, next) {
             res.status(500);
             res.send('error');
         }
-        else {res.send(result) }
+        else { res.send(result) }
     });
 });
 
@@ -94,7 +94,7 @@ router.get('/queryDetailArticle', function (req, res, next) {
         }
         else { res.send(result[0]); }
     });
-    query('UPDATE article SET visit=visit+1 WHERE id=?', [article], (err, result)=>{})
+    query('UPDATE article SET visit=visit+1 WHERE id=?', [article], (err, result) => { })
 });
 
 router.post('/addArticle', function (req, res, next) {
@@ -115,7 +115,7 @@ router.post('/addArticle', function (req, res, next) {
                         res.send('error');
                     }
                     else {
-                        res.send({ status: true })
+                        res.send({ status: true, id: result.insertId })
                     }
                 })
             }
@@ -142,7 +142,7 @@ router.put('/updateArticle', function (req, res, next) {
                         res.send('error');
                     }
                     else {
-                        if (!result.length || result[0].author != userId) {res.status(403); res.send({ status: false }) }
+                        if (!result.length || result[0].author != userId) { res.status(403); res.send({ status: false }) }
                         else {
                             query('update article set title=?,tag=?,intro=?,body=? where id=?', [req.body.title, req.body.tag, req.body.intro, req.body.body, req.body.id], (err, result) => {
                                 if (err) {
